@@ -112,7 +112,7 @@ await sharp(buffer).composite([
     }
 ]).toFile(outputpath)
    //fs.writeFileSync(filePath,buffer)
-//    navigator,hhjk
+
 
 
 const chatCompletion1 = await client.chat.completions.create({
