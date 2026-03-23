@@ -7,6 +7,7 @@ const multer = require("multer")
 
 
 const path = require("path");
+const addata = require("../models/addata");
 
 
 // go back from controllers → backend → uploads
@@ -147,14 +148,14 @@ console.log(optimizedprompt)
 const  captionsandhastag  = chatCompletion1.choices[0].message.content;
 const parsed= JSON.parse(captionsandhastag)
 const captions= parsed.caption
-const hastags= parsed.hastags
+const hashtags= parsed.hashtags
 res.status(200).json({
     success:true,
     message:"successfully image genrated",
-    image: outputpath,
+    image: `http://${process.env.HOST}:${process.env.PORT}/uploads/${outputpath}`,
    captionsandhastag:captionsandhastag,
     caption: captions,
-    hastag: hastags
+    hastag: hashtags
 })
 
 
@@ -163,5 +164,44 @@ res.status(200).json({
 
   
 }
+const generatecampaignname = ()=> {
+  return  `Campaign ${Date.now()}` 
+}
 
-module.exports = { generateimage,uploadlogo,upload};
+const savedata = async (req,res)=>{
+    const {campaign_name,prompt,imageurl,hashtags,captions}= req.body;
+    if(!prompt || !imageurl || !hashtags || !captions){
+        return res.status(400).json({
+            success:false,
+            message:"please store all required fields"
+        })
+
+    }
+    try{
+        if(!campaign_name){
+            campaign_name=generatecampaignname();
+        }
+        const fulladdata = await addata.create({
+            prompt,
+            imageurl,
+            campaign_name,
+            hashtags,
+            captions
+        }) 
+
+        res.status(200).json({
+            success:true,
+            message:"data store successfully",
+            data: fulladdata
+        })
+
+        console.log(hashtags)
+    }catch(err){
+       res.status(400).json({
+        success:false,
+        message:"something went wrong"
+       })
+    }
+}
+
+module.exports = { generateimage,uploadlogo,upload,savedata};
