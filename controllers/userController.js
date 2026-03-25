@@ -80,6 +80,7 @@ Return only the prompt.`
                 },{
                     type:"text",
                     text:userprompt
+                    // user  prompt input is passed in to this
                 }
                
             ],
