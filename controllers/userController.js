@@ -26,8 +26,8 @@ const upload = multer({storage})
 
 const uploadlogo =async (req,res)=>{  
   if(!req.file){
-    res.status(400).json({
-        success:true,
+    return res.status(400).json({
+        success:false,
         message:"error occur in  uploading",
         
     })
@@ -170,7 +170,7 @@ const generatecampaignname = ()=> {
 }
 
 const savedata = async (req,res)=>{
-    const {campaign_name,prompt,imageurl,hashtags,captions}= req.body;
+    let {campaign_name,prompt,imageurl,hashtags,captions}= req.body;
     if(!prompt || !imageurl || !hashtags || !captions){
         return res.status(400).json({
             success:false,
