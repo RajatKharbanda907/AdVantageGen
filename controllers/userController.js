@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 
 
-const uploadlogo =async (req,res)=>{  
+const uploadlogo = async (req,res)=>{  
   if(!req.file){
     return res.status(400).json({
         success:false,
