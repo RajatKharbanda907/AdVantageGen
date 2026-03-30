@@ -150,10 +150,11 @@ const  captionsandhastag  = chatCompletion1.choices[0].message.content;
 const parsed= JSON.parse(captionsandhastag)
 const captions= parsed.caption
 const hashtags= parsed.hashtags
+const filename = path.basename(outputpath);
 res.status(200).json({
     success:true,
     message:"successfully image genrated",
-    image: `http://${process.env.HOST}:${process.env.PORT}/uploads/${outputpath}`,
+    image: `http://${process.env.HOST}:${process.env.PORT}/uploads/${filename}`,
    captionsandhastag:captionsandhastag,
     caption: captions,
     hastag: hashtags
