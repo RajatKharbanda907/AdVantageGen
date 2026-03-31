@@ -4,7 +4,7 @@ import Loader from '../components/Loader'
 import { useToast } from '../components/Toast'
 import './StudioPage.css'
 
-const API = 'http://localhost:7999/api/user'
+const API = '/api/user'
 
 const STEPS = ['Upload Logo', 'Write Prompt', 'Generate', 'Results']
 
