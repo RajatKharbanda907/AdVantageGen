@@ -148,8 +148,8 @@ console.log(optimizedprompt)
 
 const  captionsandhastag  = chatCompletion1.choices[0].message.content;
 const parsed= JSON.parse(captionsandhastag)
-const captions= parsed.caption
-const hashtags= parsed.hashtags
+const captions= parsed.caption   
+const hashtags= parsed.hashtags   
 const filename = path.basename(outputpath);  
 res.status(200).json({
     success:true,
