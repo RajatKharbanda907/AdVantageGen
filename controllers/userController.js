@@ -143,7 +143,7 @@ const chatCompletion1 = await client.chat.completions.create({
         },
     ],
 });
-console.log(optimizedprompt)
+//console.log(optimizedprompt)
 
 
 const  captionsandhastag  = chatCompletion1.choices[0].message.content;
