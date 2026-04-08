@@ -1,10 +1,8 @@
-const { text } = require("express");
 const {OpenAI} = require("openai")
 const fs = require("fs")
 const {InferenceClient} = require("@huggingface/inference");
 const sharp = require("sharp")
 const multer = require("multer")
-
 
 const path = require("path");
 const addata = require("../models/addata");
@@ -177,12 +175,13 @@ const savedata = async (req,res)=>{
             success:false,
             message:"please store all required fields"
         })
-
     }
+
     try{
         if(!campaign_name){
             campaign_name=generatecampaignname();
         }
+
         const fulladdata = await addata.create({
             prompt,
             imageurl,
@@ -191,19 +190,34 @@ const savedata = async (req,res)=>{
             captions
         }) 
 
-        res.status(200).json({
+        return res.status(200).json({
             success:true,
             message:"data store successfully",
             data: fulladdata
         })
-
-        console.log(hashtags)
     }catch(err){
-       res.status(400).json({
-        success:false,
-        message:"something went wrong"
-       })
+        console.error('Save campaign error:', err)
+        return res.status(500).json({
+            success:false,
+            message:"something went wrong while saving campaign"
+        })
     }
 }
 
-module.exports = { generateimage,uploadlogo,upload,savedata};
+const getCampaigns = async (req, res) => {
+    try {
+        const campaigns = await addata.find().sort({ date_created: -1 })
+        return res.status(200).json({
+            success: true,
+            data: campaigns
+        })
+    } catch (err) {
+        console.error('Get campaigns error:', err)
+        return res.status(500).json({
+            success: false,
+            message: 'Could not load campaigns'
+        })
+    }
+}
+
+module.exports = { generateimage, uploadlogo, upload, savedata, getCampaigns };
